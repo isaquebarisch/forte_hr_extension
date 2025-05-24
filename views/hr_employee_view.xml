@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extendendo a visualização de formulário dos funcionários -->
+    <record id="forte_hr_employee_view_form" model="ir.ui.view">
+        <field name="name">forte.hr.employee.view.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <!-- Adicionando nova aba para informações específicas do funcionário -->
+            <notebook position="inside">
+                <page string="Informações Adicionais" name="forte_info">
+                    <group>
+                        <group string="Informações Pessoais">
+                            <field name="naturalidade"/>
+                            <field name="race"/>
+                            <field name="deficiency_type"/>
+                            <field name="education_level"/>
+                        </group>
+                        <group string="Informações Médicas">
+                            <field name="date_medical_exam"/>
+                            <field name="validity_medical_exam"/>
+                            <field name="next_medical_exam"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Informações Contratuais">
+                            <field name="union_name"/>
+                            <field name="contract_type"/>
+                            <field name="work_schedule"/>
+                            <field name="cbo_code"/>
+                            <field name="job_change_date"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Extendendo a visualização de árvore dos funcionários -->
+    <record id="forte_hr_employee_view_tree" model="ir.ui.view">
+        <field name="name">forte.hr.employee.view.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <field name="job_title" position="after">
+                <field name="cbo_code" optional="hide"/>
+                <field name="contract_type" optional="hide"/>
+                <field name="union_name" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Extendendo a visualização de pesquisa de funcionários -->
+    <record id="forte_hr_employee_view_search" model="ir.ui.view">
+        <field name="name">forte.hr.employee.view.search</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <field name="job_id" position="after">
+                <field name="cbo_code"/>
+                <field name="union_name"/>
+                <field name="contract_type"/>
+                <field name="race"/>
+            </field>
+            <filter name="group_job" position="after">
+                <filter name="group_contract_type" string="Tipo de Contrato" context="{'group_by': 'contract_type'}"/>
+                <filter name="group_race" string="Raça/Cor" context="{'group_by': 'race'}"/>
+                <filter name="group_education" string="Grau de Instrução" context="{'group_by': 'education_level'}"/>
+            </filter>
+        </field>
+    </record>
+</odoo>
